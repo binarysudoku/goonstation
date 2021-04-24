@@ -440,6 +440,23 @@ ABSTRACT_TYPE(/obj/item/reagent_containers)
 	var/helmet_bucket_type = /obj/item/clothing/head/helmet/bucket
 	var/hat_bucket_type = /obj/item/clothing/head/helmet/bucket/hat
 	var/bucket_sensor_type = /obj/item/bucket_sensor
+	var/image/fluid_image
+
+	New()
+		. = ..()
+		src.fluid_image = image(src.icon, "fluid-bucket", -1)
+
+	proc/update_icon()
+		if (reagents.total_volume)
+			var/datum/color/average = reagents.get_average_color()
+			src.fluid_image.color = average.to_rgba()
+			src.UpdateOverlays(src.fluid_image, "fluid")
+		else
+			src.ClearSpecificOverlays("fluid")
+
+	on_reagent_change()
+		..()
+		src.update_icon()
 
 	attackby(var/obj/item/D, mob/user as mob)
 		if (istype(D, /obj/item/device/prox_sensor))

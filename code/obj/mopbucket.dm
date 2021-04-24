@@ -13,7 +13,7 @@
 
 	New()
 		. = ..()
-		src.fluid_image = image(src.icon, "fluid", -1)
+		src.fluid_image = image(src.icon, "fluid-mopbucket", -1)
 
 	proc/update_icon()
 		if (reagents.total_volume)
